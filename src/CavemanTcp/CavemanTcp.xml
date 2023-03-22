@@ -195,12 +195,29 @@
             <param name="count">The number of bytes to read.</param>
             <returns>ReadResult.</returns>
         </member>
+        <member name="M:CavemanTcp.CavemanTcpClient.Read(System.Int32,System.Byte[])">
+            <summary>
+            Read from the server.
+            </summary>
+            <param name="count">The number of bytes to read.</param>
+            <param name="terminator">The pattern which ends reciving message.</param>
+            <returns>ReadResult.</returns>
+        </member>
         <member name="M:CavemanTcp.CavemanTcpClient.ReadWithTimeout(System.Int32,System.Int32)">
             <summary>
             Read from the server.
             </summary>
             <param name="timeoutMs">The number of milliseconds to wait before timing out the operation.  -1 indicates no timeout, otherwise the value must be a non-zero positive integer.</param>
             <param name="count">The number of bytes to read.</param>
+            <returns>ReadResult.</returns>
+        </member>
+        <member name="M:CavemanTcp.CavemanTcpClient.ReadWithTimeout(System.Int32,System.Int32,System.Byte[])">
+            <summary>
+            Read from the server.
+            </summary>
+            <param name="timeoutMs">The number of milliseconds to wait before timing out the operation.  -1 indicates no timeout, otherwise the value must be a non-zero positive integer.</param>
+            <param name="count">The number of bytes to read.</param>
+            <param name="terminator">The pattern which ends reciving message.</param>
             <returns>ReadResult.</returns>
         </member>
         <member name="M:CavemanTcp.CavemanTcpClient.ReadAsync(System.Int32,System.Threading.CancellationToken)">
@@ -211,12 +228,31 @@
             <param name="token">Cancellation token for canceling the request.</param>
             <returns>ReadResult.</returns>
         </member>
+        <member name="M:CavemanTcp.CavemanTcpClient.ReadAsync(System.Int32,System.Byte[],System.Threading.CancellationToken)">
+            <summary>
+            Read from the server.
+            </summary>
+            <param name="count">The number of bytes to read.</param>
+            <param name="terminator">The pattern which ends reciving message.</param>
+            <param name="token">Cancellation token for canceling the request.</param>
+            <returns>ReadResult.</returns>
+        </member>
         <member name="M:CavemanTcp.CavemanTcpClient.ReadWithTimeoutAsync(System.Int32,System.Int32,System.Threading.CancellationToken)">
             <summary>
             Read from the server.
             </summary>
             <param name="timeoutMs">The number of milliseconds to wait before timing out the operation.  -1 indicates no timeout, otherwise the value must be a non-zero positive integer.</param>
             <param name="count">The number of bytes to read.</param>
+            <param name="token">Cancellation token for canceling the request.</param>
+            <returns>ReadResult.</returns>
+        </member>
+        <member name="M:CavemanTcp.CavemanTcpClient.ReadWithTimeoutAsync(System.Int32,System.Int32,System.Byte[],System.Threading.CancellationToken)">
+            <summary>
+            Read from the server.
+            </summary>
+            <param name="timeoutMs">The number of milliseconds to wait before timing out the operation.  -1 indicates no timeout, otherwise the value must be a non-zero positive integer.</param>
+            <param name="count">The number of bytes to read.</param>
+            <param name="terminator">The pattern which ends reciving message.</param>
             <param name="token">Cancellation token for canceling the request.</param>
             <returns>ReadResult.</returns>
         </member>
@@ -972,6 +1008,16 @@
             Human-readable representation of the object.
             </summary>
             <returns></returns>
+        </member>
+        <member name="M:CavemanTcp.Common.Contains(System.Byte[],System.Byte[])">
+            <summary>
+            Determines whether a byte array contains the specified sequence of bytes.
+            </summary>
+            <param name="caller">The byte array to be searched.</param>
+            <param name="array">The byte to be found.</param>
+            <returns>The first location of the sequence within the array, -1 if the sequence is not found.</returns>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.ArgumentException"></exception>
         </member>
         <member name="T:CavemanTcp.DisconnectReason">
             <summary>

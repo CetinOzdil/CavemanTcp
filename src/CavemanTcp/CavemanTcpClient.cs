@@ -317,10 +317,13 @@ namespace CavemanTcp
                 _Events.HandleExceptionEncountered(this, e);
                 throw;
             }
+            /*
+             * Disabled beacuse of "Safe handle has been closed." error
             finally
             {
                 wh.Close();
             }
+            */
 
             _IsConnected = true;
             _Statistics = new CavemanTcpStatistics();
@@ -1232,8 +1235,6 @@ namespace CavemanTcp
                 }
 
                 MemoryStream ms = new MemoryStream();
-                // Moved here to make stream available/reachable if cancellation occurs
-                result.DataStream = ms;
                 long bytesRemaining = count;
 
                 while (bytesRemaining > 0)
@@ -1256,6 +1257,7 @@ namespace CavemanTcp
                 }
 
                 ms.Seek(0, SeekOrigin.Begin);
+                result.DataStream = ms;
                 return result;
             }
             catch (TaskCanceledException)
@@ -1277,17 +1279,6 @@ namespace CavemanTcp
             }
             finally
             {
-                // if MemoryStream contains data, seek to origin for making it usable by ReadResult
-                if (result.DataStream.Length > 0)
-                {
-                    result.DataStream.Seek(0, SeekOrigin.Begin);
-                }
-                else
-                {
-                    result.DataStream.Dispose();
-                    result.DataStream = null;
-                }
-
                 _ReadSemaphore.Release();
             }
         }
@@ -1310,8 +1301,6 @@ namespace CavemanTcp
                 try
                 {
                     MemoryStream ms = new MemoryStream();
-                    // Moved here to be available/reachable if timeout or cancellation occurs
-                    result.DataStream = ms;
                     long bytesRemaining = count;
 
                     while (bytesRemaining > 0)
@@ -1334,6 +1323,7 @@ namespace CavemanTcp
                     }
 
                     ms.Seek(0, SeekOrigin.Begin);
+                    result.DataStream = ms;
                     return result;
                 }
                 catch (TaskCanceledException)
@@ -1367,18 +1357,6 @@ namespace CavemanTcp
             else
             {
                 result.Status = ReadResultStatus.Timeout;
-
-                // if MemoryStream contains data, seek to origin for making it usable by ReadResult
-                if (result.DataStream.Length > 0)
-                {
-                    result.DataStream.Seek(0, SeekOrigin.Begin);
-                }
-                else
-                {
-                    result.DataStream.Dispose();
-                    result.DataStream = null;
-                }
-
                 return result;
             }
         }
@@ -1400,8 +1378,6 @@ namespace CavemanTcp
                 try
                 {
                     MemoryStream ms = new MemoryStream();
-                    // Moved here to be available/reachable if timeout or cancellation occurs
-                    result.DataStream = ms;
                     long bytesRemaining = count;
 
                     while (bytesRemaining > 0)
@@ -1439,6 +1415,7 @@ namespace CavemanTcp
                     }
 
                     ms.Seek(0, SeekOrigin.Begin);
+                    result.DataStream = ms;
                     return result;
                 }
                 catch (TaskCanceledException)
@@ -1472,18 +1449,6 @@ namespace CavemanTcp
             else
             {
                 result.Status = ReadResultStatus.Timeout;
-
-                // if MemoryStream contains data, seek to origin for making it usable by ReadResult
-                if (result.DataStream.Length > 0)
-                {
-                    result.DataStream.Seek(0, SeekOrigin.Begin);
-                }
-                else
-                {
-                    result.DataStream.Dispose();
-                    result.DataStream = null;
-                }
-
                 return result;
             }
         }
@@ -1503,8 +1468,6 @@ namespace CavemanTcp
                 }
 
                 MemoryStream ms = new MemoryStream();
-                // Moved here to make stream available/reachable if cancellation occurs
-                result.DataStream = ms;
                 long bytesRemaining = count;
 
                 while (bytesRemaining > 0)
@@ -1526,8 +1489,8 @@ namespace CavemanTcp
                     }
                 }
 
-                // not needed anymore
-                //ms.Seek(0, SeekOrigin.Begin);
+                ms.Seek(0, SeekOrigin.Begin);
+                result.DataStream = ms;
                 return result;
             }
             catch (TaskCanceledException)
@@ -1549,17 +1512,6 @@ namespace CavemanTcp
             }
             finally
             {
-                // if MemoryStream contains data, seek to origin for making it usable by ReadResult
-                if (result.DataStream.Length > 0)
-                {
-                    result.DataStream.Seek(0, SeekOrigin.Begin);
-                }
-                else
-                {
-                    result.DataStream.Dispose();
-                    result.DataStream = null;
-                }
-
                 _ReadSemaphore.Release();
             }
         }
@@ -1578,8 +1530,6 @@ namespace CavemanTcp
                 }
 
                 MemoryStream ms = new MemoryStream();
-                // Moved here to make stream available/reachable if cancellation occurs
-                result.DataStream = ms;
                 long bytesRemaining = count;
 
                 while (bytesRemaining > 0)
@@ -1615,8 +1565,8 @@ namespace CavemanTcp
                     }
                 }
 
-                // not needed anymore
-                //ms.Seek(0, SeekOrigin.Begin);
+                ms.Seek(0, SeekOrigin.Begin);
+                result.DataStream = ms;
                 return result;
             }
             catch (TaskCanceledException)
@@ -1638,17 +1588,6 @@ namespace CavemanTcp
             }
             finally
             {
-                // if MemoryStream contains data, seek to origin for making it usable by ReadResult
-                if (result.DataStream.Length > 0)
-                {
-                    result.DataStream.Seek(0, SeekOrigin.Begin);
-                }
-                else
-                {
-                    result.DataStream.Dispose();
-                    result.DataStream = null;
-                }
-
                 _ReadSemaphore.Release();
             }
         }
@@ -1673,9 +1612,6 @@ namespace CavemanTcp
                 try
                 {
                     MemoryStream ms = new MemoryStream();
-
-                    // Moved here to be available/reachable if timeout or cancellation occurs
-                    result.DataStream = ms;
                     long bytesRemaining = count;
 
                     while (bytesRemaining > 0)
@@ -1698,6 +1634,7 @@ namespace CavemanTcp
                     }
 
                     ms.Seek(0, SeekOrigin.Begin);
+                    result.DataStream = ms;
                     return result;
                 }
                 catch (TaskCanceledException)
@@ -1733,18 +1670,6 @@ namespace CavemanTcp
             else
             {
                 result.Status = ReadResultStatus.Timeout;
-
-                // if MemoryStream contains data, seek to origin for making it usable by ReadResult
-                if (result.DataStream.Length > 0)
-                {
-                    result.DataStream.Seek(0, SeekOrigin.Begin);
-                }
-                else
-                {
-                    result.DataStream.Dispose();
-                    result.DataStream = null;
-                }
-
                 return result;
             }
         }
@@ -1768,9 +1693,6 @@ namespace CavemanTcp
                 try
                 {
                     MemoryStream ms = new MemoryStream();
-
-                    // Moved here to be available/reachable if timeout or cancellation occurs
-                    result.DataStream = ms;
                     long bytesRemaining = count;
 
                     while (bytesRemaining > 0)
@@ -1807,6 +1729,7 @@ namespace CavemanTcp
                     }
 
                     ms.Seek(0, SeekOrigin.Begin);
+                    result.DataStream = ms;
                     return result;
                 }
                 catch (TaskCanceledException)
@@ -1842,18 +1765,6 @@ namespace CavemanTcp
             else
             {
                 result.Status = ReadResultStatus.Timeout;
-
-                // if MemoryStream contains data, seek to origin for making it usable by ReadResult
-                if (result.DataStream.Length > 0)
-                {
-                    result.DataStream.Seek(0, SeekOrigin.Begin);
-                }
-                else
-                {
-                    result.DataStream.Dispose();
-                    result.DataStream = null;
-                }
-
                 return result;
             }
         }
